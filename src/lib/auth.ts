@@ -1,3 +1,4 @@
+// E:\venturemind\src\lib\auth.ts
 import { NextAuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import { PrismaAdapter } from "@auth/prisma-adapter"
@@ -21,7 +22,7 @@ export const authOptions: NextAuthOptions = {
     },
     jwt: async ({ user, token }) => {
       if (user) {
-        token.uid = user.id
+        token.sub = user.id // Use 'sub' instead of 'uid' for consistency
       }
       return token
     },
@@ -34,5 +35,5 @@ export const authOptions: NextAuthOptions = {
     error: "/auth/error",
   },
   debug: process.env.NODE_ENV === "development",
-  secret: process.env.NEXTAUTH_SECRET,
+  // REMOVE THIS LINE: secret: process.env.NEXTAUTH_SECRET,
 }
