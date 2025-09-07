@@ -1,7 +1,12 @@
-import type { NextConfig } from "next";
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  images: {
+    domains: [
+      'lh3.googleusercontent.com', // Google profile images
+      'avatars.githubusercontent.com' // GitHub profile images (if needed later)
+    ],
+  },
+  serverExternalPackages: ['@prisma/client'],
+}
 
-const nextConfig: NextConfig = {
-  /* config options here */
-};
-
-export default nextConfig;
+export default nextConfig
