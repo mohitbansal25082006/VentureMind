@@ -1,3 +1,4 @@
+// src/components/footer.tsx
 import Link from "next/link"
 import { Brain } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
@@ -6,9 +7,8 @@ const footerSections = [
   {
     title: "Product",
     links: [
-      { name: "Features", href: "#features" },
-      { name: "How It Works", href: "#how-it-works" },
-      { name: "Pricing", href: "#pricing" },
+      { name: "Features", href: "/features" },
+      { name: "How It Works", href: "/how-it-works" },
       { name: "Dashboard", href: "/dashboard" },
     ],
   },
@@ -72,7 +72,7 @@ export function Footer() {
 
         <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
           <p className="text-gray-400 text-sm">
-            © 2024 VentureMind. All rights reserved.
+            © 2025 VentureMind. All rights reserved.
           </p>
           <div className="flex space-x-6">
             <Link href="/privacy" className="text-gray-400 hover:text-white text-sm transition-colors">
@@ -85,6 +85,13 @@ export function Footer() {
               Contact
             </Link>
           </div>
+        </div>
+
+        {/* Bottom Center Note */}
+        <div className="mt-6 flex justify-center">
+          <p className="text-gray-500 text-sm">
+            Made with <span className="text-red-500">❤️</span> by Mohit Bansal
+          </p>
         </div>
       </div>
     </footer>

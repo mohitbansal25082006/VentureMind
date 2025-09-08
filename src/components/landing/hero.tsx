@@ -54,11 +54,6 @@ export function Hero() {
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             )}
-            <Button variant="outline" size="lg" className="text-lg px-8 py-6" asChild>
-              <Link href="#how-it-works">
-                Learn More
-              </Link>
-            </Button>
           </div>
 
           {/* Stats */}
