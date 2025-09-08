@@ -13,13 +13,8 @@ export default async function ValidatePage() {
 
   return (
     <div className="max-w-4xl mx-auto space-y-8">
-      <div className="text-center">
-        <h1 className="text-3xl font-bold mb-4">Validate Your Startup Idea</h1>
-        <p className="text-muted-foreground text-lg">
-          Get comprehensive AI-powered analysis and validation for your business concept
-        </p>
-      </div>
-
+    <div></div>
+    <div></div>
       <IdeaForm />
     </div>
   );
