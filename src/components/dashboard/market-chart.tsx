@@ -10,22 +10,43 @@ import {
   CartesianGrid, 
   Tooltip, 
   ResponsiveContainer,
-  Cell
+  Cell,
+  TooltipProps
 } from 'recharts';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { TrendingUp, TrendingDown, DollarSign } from 'lucide-react';
 import { formatCurrency } from '@/lib/validation';
 import type { MarketAnalysis } from '@/types/validation';
+import type { NameType, ValueType, Payload } from 'recharts/types/component/DefaultTooltipContent';
 
 interface MarketChartProps {
   marketAnalysis: MarketAnalysis;
 }
 
+interface MarketSizeDataItem {
+  name: string;
+  value: number;
+  color: string;
+  abbreviation: string;
+}
+
+interface TrendDataItem {
+  name: string;
+  impact: number;
+  description: string;
+  impactLabel: string;
+}
+
+interface CustomTooltipProps extends TooltipProps<ValueType, NameType> {
+  active?: boolean;
+  payload?: Array<Payload<ValueType, NameType>>;
+}
+
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
 
 export function MarketChart({ marketAnalysis }: MarketChartProps) {
-  const marketSizeData = useMemo(() => [
+  const marketSizeData = useMemo((): MarketSizeDataItem[] => [
     {
       name: 'TAM (Total Addressable)',
       value: marketAnalysis.tamSize,
@@ -46,7 +67,7 @@ export function MarketChart({ marketAnalysis }: MarketChartProps) {
     }
   ], [marketAnalysis]);
 
-  const trendsData = useMemo(() => 
+  const trendsData = useMemo((): TrendDataItem[] => 
     marketAnalysis.marketTrends?.map((trend) => ({
       name: trend.trend,
       impact: trend.impact === 'high' ? 3 : trend.impact === 'medium' ? 2 : 1,
@@ -65,9 +86,9 @@ export function MarketChart({ marketAnalysis }: MarketChartProps) {
     }
   };
 
-  const CustomTooltip = ({ active, payload }: any) => {
+  const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
     if (active && payload && payload.length) {
-      const data = payload[0].payload;
+      const data = payload[0].payload as MarketSizeDataItem;
       return (
         <div className="bg-white p-3 border rounded-lg shadow-lg">
           <p className="font-medium">{data.name}</p>
@@ -78,9 +99,9 @@ export function MarketChart({ marketAnalysis }: MarketChartProps) {
     return null;
   };
 
-  const TrendsTooltip = ({ active, payload }: any) => {
+  const TrendsTooltip = ({ active, payload }: CustomTooltipProps) => {
     if (active && payload && payload.length) {
-      const data = payload[0].payload;
+      const data = payload[0].payload as TrendDataItem;
       return (
         <div className="bg-white p-3 border rounded-lg shadow-lg max-w-xs">
           <p className="font-medium">{data.name}</p>

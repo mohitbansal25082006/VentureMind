@@ -364,7 +364,7 @@ export function IdeaForm({ onSuccess }: IdeaFormProps) {
                 <Alert className="border-purple-200 bg-purple-50">
                   <Globe className="h-4 w-4" />
                   <AlertDescription className="text-purple-800">
-                    We'll analyze market opportunities and competition specific to {
+                    We&apos;ll analyze market opportunities and competition specific to {
                       regionOptions.find(r => r.value === watchedFields.region)?.label
                     }.
                   </AlertDescription>

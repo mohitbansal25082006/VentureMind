@@ -16,7 +16,6 @@ import {
   Mail
 } from "lucide-react";
 import Link from "next/link";
-
 export default function TermsOfServicePage() {
   const sections = [
     {
@@ -25,7 +24,7 @@ export default function TermsOfServicePage() {
       content: [
         {
           heading: "Agreement",
-          text: "By accessing and using VentureMind's Services, you accept and agree to be bound by the terms and provision of this agreement."
+          text: "By accessing and using VentureMind&apos;s Services, you accept and agree to be bound by the terms and provision of this agreement."
         },
         {
           heading: "Use of Services",
@@ -43,7 +42,7 @@ export default function TermsOfServicePage() {
       content: [
         {
           heading: "Permission",
-          text: "Permission is granted to temporarily download one copy of the materials on VentureMind's website for personal, non-commercial transitory viewing only."
+          text: "Permission is granted to temporarily download one copy of the materials on VentureMind&apos;s website for personal, non-commercial transitory viewing only."
         },
         {
           heading: "Restrictions",
@@ -61,7 +60,7 @@ export default function TermsOfServicePage() {
       content: [
         {
           heading: "As Is",
-          text: "The materials on VentureMind's website are provided on an 'as is' basis. VentureMind makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties."
+          text: "The materials on VentureMind&apos;s website are provided on an &apos;as is&apos; basis. VentureMind makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties."
         },
         {
           heading: "Limitations",
@@ -147,7 +146,7 @@ export default function TermsOfServicePage() {
       content: [
         {
           heading: "No Warranty",
-          text: "Our Services are provided 'as is' without any warranties, express or implied, including, but not limited to, implied warranties of merchantability, fitness for a particular purpose, or non-infringement."
+          text: "Our Services are provided &apos;as is&apos; without any warranties, express or implied, including, but not limited to, implied warranties of merchantability, fitness for a particular purpose, or non-infringement."
         },
         {
           heading: "Cap on Liability",
@@ -178,7 +177,6 @@ export default function TermsOfServicePage() {
       ]
     }
   ];
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Hero Section */}
@@ -192,14 +190,13 @@ export default function TermsOfServicePage() {
               Terms of Service
             </h1>
             <p className="text-xl text-blue-100 mb-10 max-w-2xl mx-auto">
-              Please read these terms carefully before using VentureMind's Services.
+              Please read these terms carefully before using VentureMind&apos;s Services.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
             </div>
           </div>
         </div>
       </section>
-
       {/* Summary Section */}
       <section id="summary" className="py-20 px-4">
         <div className="container mx-auto max-w-4xl">
@@ -226,7 +223,7 @@ export default function TermsOfServicePage() {
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                      <span>Services provided 'as is' without warranties</span>
+                      <span>Services provided &apos;as is&apos; without warranties</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
@@ -294,7 +291,6 @@ export default function TermsOfServicePage() {
           </div>
         </div>
       </section>
-
       {/* Contact Section */}
       <section className="py-20 px-4 bg-gray-50">
         <div className="container mx-auto max-w-4xl text-center">
@@ -303,7 +299,7 @@ export default function TermsOfServicePage() {
           </h2>
           <p className="text-gray-600 text-lg mb-10 max-w-2xl mx-auto">
             If you have any questions or concerns about these Terms of Service, 
-            please don't hesitate to contact us.
+            please don&apos;t hesitate to contact us.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" asChild>

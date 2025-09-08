@@ -131,7 +131,7 @@ export default function PrivacyPolicyPage() {
       ]
     },
     {
-      title: "Children's Privacy",
+      title: "Children&apos;s Privacy",
       icon: Shield,
       content: [
         {
@@ -158,7 +158,7 @@ export default function PrivacyPolicyPage() {
         },
         {
           heading: "Notification",
-          text: "We will notify you of any material changes by posting the new Privacy Policy on this page and updating the 'Last Updated' date."
+          text: "We will notify you of any material changes by posting the new Privacy Policy on this page and updating the &apos;Last Updated&apos; date."
         },
         {
           heading: "Continued Use",
@@ -214,7 +214,7 @@ export default function PrivacyPolicyPage() {
               Your Privacy Matters to Us
             </h1>
             <p className="text-xl text-blue-100 mb-10 max-w-2xl mx-auto">
-              We're committed to protecting your personal information and being transparent 
+              We&apos;re committed to protecting your personal information and being transparent 
               about how we use it.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -287,7 +287,7 @@ export default function PrivacyPolicyPage() {
               
               <div className="mt-8 pt-6 border-t border-gray-200">
                 <p className="text-gray-600">
-                  This policy applies to all users of VentureMind's Services, including our website, 
+                  This policy applies to all users of VentureMind&apos;s Services, including our website, 
                   applications, and other products and services offered by VentureMind.
                 </p>
               </div>
@@ -374,7 +374,7 @@ export default function PrivacyPolicyPage() {
           </h2>
           <p className="text-gray-600 text-lg mb-10 max-w-2xl mx-auto">
             If you have any questions or concerns about this Privacy Policy or our data practices, 
-            please don't hesitate to contact us.
+            please don&apos;t hesitate to contact us.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" asChild>

@@ -52,11 +52,13 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { formatDistanceToNow } from 'date-fns';
+
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
   if (!session?.user) {
     redirect('/');
   }
+
   // Fetch user's reports
   const recentReports = await prisma.report.findMany({
     where: {
@@ -75,11 +77,13 @@ export default async function DashboardPage() {
       region: true,
     },
   });
+
   const totalReports = await prisma.report.count({
     where: {
       userId: session.user.id,
     },
   });
+
   const avgScore = totalReports > 0 ? Math.round(
     (await prisma.report.aggregate({
       where: {
@@ -91,6 +95,7 @@ export default async function DashboardPage() {
       },
     }))._avg.investmentScore || 0
   ) : 0;
+
   // Calculate reports from this month
   const thisMonthReports = await prisma.report.count({
     where: {
@@ -100,6 +105,7 @@ export default async function DashboardPage() {
       },
     },
   });
+
   // Calculate reports from last month
   const lastMonthReports = await prisma.report.count({
     where: {
@@ -110,30 +116,37 @@ export default async function DashboardPage() {
       },
     },
   });
+
   // Calculate growth percentage
   const growthPercentage = lastMonthReports > 0 
     ? Math.round(((thisMonthReports - lastMonthReports) / lastMonthReports) * 100)
     : thisMonthReports > 0 ? 100 : 0;
+
   // Get top industries
   const industryCounts: Record<string, number> = {};
   recentReports.forEach(report => {
     industryCounts[report.industry] = (industryCounts[report.industry] || 0) + 1;
   });
+
   const topIndustries = Object.entries(industryCounts)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 3)
     .map(([industry, count]) => ({ industry, count }));
+
   // Get high performing reports
   const highPerformingReports = recentReports.filter(r => (r.investmentScore || 0) >= 80);
+
   // Determine user level based on activity
   const getUserLevel = () => {
-    if (totalReports >= 10) return { level: 'Expert', color: 'bg-purple-100 text-purple-800 border-purple-200', icon: Award, description: 'You\'ve mastered the art of startup validation' };
-    if (totalReports >= 5) return { level: 'Pro', color: 'bg-blue-100 text-blue-800 border-blue-200', icon: Star, description: 'You\'re becoming a validation pro' };
-    if (totalReports >= 2) return { level: 'Active', color: 'bg-green-100 text-green-800 border-green-200', icon: Zap, description: 'You\'re actively building your validation skills' };
+    if (totalReports >= 10) return { level: 'Expert', color: 'bg-purple-100 text-purple-800 border-purple-200', icon: Award, description: 'You&apos;ve mastered the art of startup validation' };
+    if (totalReports >= 5) return { level: 'Pro', color: 'bg-blue-100 text-blue-800 border-blue-200', icon: Star, description: 'You&apos;re becoming a validation pro' };
+    if (totalReports >= 2) return { level: 'Active', color: 'bg-green-100 text-green-800 border-green-200', icon: Zap, description: 'You&apos;re actively building your validation skills' };
     return { level: 'New', color: 'bg-yellow-100 text-yellow-800 border-yellow-200', icon: Rocket, description: 'Welcome to your validation journey' };
   };
+
   const userLevel = getUserLevel();
   const LevelIcon = userLevel.icon;
+
   // Get time of day for personalized greeting
   const getGreeting = () => {
     const hour = new Date().getHours();
@@ -141,7 +154,9 @@ export default async function DashboardPage() {
     if (hour < 18) return 'Good afternoon';
     return 'Good evening';
   };
+
   const greeting = getGreeting();
+
   return (
     <div className="space-y-8">
       {/* Welcome Header with User Level */}
@@ -155,7 +170,7 @@ export default async function DashboardPage() {
               <div>
                 <h1 className="text-3xl font-bold">{greeting}, {session.user.name}!</h1>
                 <p className="text-blue-100 mt-1">
-                  Ready to validate your next big idea? You've created {totalReports} validation{totalReports !== 1 ? 's' : ''} so far.
+                  Ready to validate your next big idea? You&apos;ve created {totalReports} validation{totalReports !== 1 ? 's' : ''} so far.
                 </p>
               </div>
             </div>
@@ -175,6 +190,7 @@ export default async function DashboardPage() {
           </div>
         </div>
       </div>
+
       {/* Stats Overview with Growth Indicators */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card className="border-l-4 border-l-blue-500 shadow-md hover:shadow-lg transition-shadow">
@@ -207,6 +223,7 @@ export default async function DashboardPage() {
             </div>
           </CardContent>
         </Card>
+
         <Card className="border-l-4 border-l-green-500 shadow-md hover:shadow-lg transition-shadow">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
@@ -227,6 +244,7 @@ export default async function DashboardPage() {
             </div>
           </CardContent>
         </Card>
+
         <Card className="border-l-4 border-l-purple-500 shadow-md hover:shadow-lg transition-shadow">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
@@ -245,6 +263,7 @@ export default async function DashboardPage() {
             </div>
           </CardContent>
         </Card>
+
         <Card className="border-l-4 border-l-orange-500 shadow-md hover:shadow-lg transition-shadow">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
@@ -264,6 +283,7 @@ export default async function DashboardPage() {
           </CardContent>
         </Card>
       </div>
+
       {/* Main Content Tabs */}
       <Tabs defaultValue="overview" className="space-y-6">
         <div className="flex justify-center">
@@ -273,6 +293,7 @@ export default async function DashboardPage() {
             <TabsTrigger value="insights">Insights</TabsTrigger>
           </TabsList>
         </div>
+
         <TabsContent value="overview" className="space-y-6">
           {/* Quick Actions */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -290,6 +311,7 @@ export default async function DashboardPage() {
                 </CardContent>
               </Link>
             </Card>
+
             <Card className="group hover:shadow-xl transition-all duration-300 cursor-pointer hover:border-green-500 hover:bg-green-50/30">
               <Link href="/dashboard/reports">
                 <CardContent className="p-6 text-center">
@@ -304,6 +326,7 @@ export default async function DashboardPage() {
                 </CardContent>
               </Link>
             </Card>
+
             <Card className="group hover:shadow-xl transition-all duration-300 cursor-pointer hover:border-purple-500 hover:bg-purple-50/30">
               <Link href="/dashboard/analytics">
                 <CardContent className="p-6 text-center">
@@ -318,6 +341,7 @@ export default async function DashboardPage() {
                 </CardContent>
               </Link>
             </Card>
+
             <Card className="group hover:shadow-xl transition-all duration-300 cursor-pointer hover:border-orange-500 hover:bg-orange-50/30">
               <Link href="/dashboard/resources">
                 <CardContent className="p-6 text-center">
@@ -333,6 +357,7 @@ export default async function DashboardPage() {
               </Link>
             </Card>
           </div>
+
           {/* Recent Reports */}
           {recentReports.length > 0 && (
             <Card className="shadow-md">
@@ -393,6 +418,7 @@ export default async function DashboardPage() {
               </CardContent>
             </Card>
           )}
+
           {/* Top Industries */}
           {topIndustries.length > 0 && (
             <Card className="shadow-md">
@@ -401,12 +427,12 @@ export default async function DashboardPage() {
                   <Briefcase className="h-5 w-5" />
                   Your Top Industries
                 </CardTitle>
-                <CardDescription>Industries you've validated the most</CardDescription>
+                <CardDescription>Industries you&apos;ve validated the most</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {topIndustries.map((item, index) => (
-                    <div key={index} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                  {topIndustries.map((item) => (
+                    <div key={item.industry} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
                       <div className="flex items-center justify-between mb-2">
                         <h3 className="font-medium capitalize">{item.industry}</h3>
                         <span className="text-lg font-bold">{item.count}</span>
@@ -422,6 +448,7 @@ export default async function DashboardPage() {
             </Card>
           )}
         </TabsContent>
+
         <TabsContent value="activity" className="space-y-6">
           <Card className="shadow-md">
             <CardHeader>
@@ -434,7 +461,7 @@ export default async function DashboardPage() {
             <CardContent>
               {recentReports.length > 0 ? (
                 <div className="space-y-4">
-                  {recentReports.map((report, index) => (
+                  {recentReports.map((report) => (
                     <div key={report.id} className="flex gap-4 p-4 border-l-4 border-l-blue-500 bg-blue-50/30 rounded-r-lg hover:bg-blue-50/50 transition-colors">
                       <div className="flex-shrink-0 w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
                         <FileText className="h-5 w-5 text-blue-600" />
@@ -490,6 +517,7 @@ export default async function DashboardPage() {
             </CardContent>
           </Card>
         </TabsContent>
+
         <TabsContent value="insights" className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Card className="shadow-md">
@@ -520,7 +548,7 @@ export default async function DashboardPage() {
                       <div>
                         <h4 className="font-medium text-sm">Diversify Your Industries</h4>
                         <p className="text-xs text-muted-foreground mt-1">
-                          You've focused on {topIndustries[0]?.industry || 'one industry'}. Try exploring other industries for more insights.
+                          You&apos;ve focused on {topIndustries[0]?.industry || 'one industry'}. Try exploring other industries for more insights.
                         </p>
                       </div>
                     </div>
@@ -551,7 +579,7 @@ export default async function DashboardPage() {
                         <div>
                           <h4 className="font-medium text-sm">Stay Consistent</h4>
                           <p className="text-xs text-muted-foreground mt-1">
-                            You haven't validated any ideas this month. Regular validation helps refine your entrepreneurial skills.
+                            You haven&apos;t validated any ideas this month. Regular validation helps refine your entrepreneurial skills.
                           </p>
                         </div>
                       </div>
@@ -560,6 +588,7 @@ export default async function DashboardPage() {
                 )}
               </CardContent>
             </Card>
+
             <Card className="shadow-md">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
@@ -620,6 +649,7 @@ export default async function DashboardPage() {
               </CardContent>
             </Card>
           </div>
+
           {/* Progress Tracker */}
           <Card className="shadow-md">
             <CardHeader>
@@ -651,6 +681,7 @@ export default async function DashboardPage() {
                     </Button>
                   )}
                 </div>
+
                 <div className="flex items-center justify-between p-4 bg-white rounded-lg border">
                   <div className="flex items-center gap-4">
                     <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
@@ -669,6 +700,7 @@ export default async function DashboardPage() {
                     <Badge variant="outline">{totalReports}/3 completed</Badge>
                   )}
                 </div>
+
                 <div className="flex items-center justify-between p-4 bg-white rounded-lg border">
                   <div className="flex items-center gap-4">
                     <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
@@ -687,6 +719,7 @@ export default async function DashboardPage() {
                     <Badge variant="outline">{avgScore}/70 points</Badge>
                   )}
                 </div>
+
                 <div className="flex items-center justify-between p-4 bg-white rounded-lg border">
                   <div className="flex items-center gap-4">
                     <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
@@ -710,6 +743,7 @@ export default async function DashboardPage() {
           </Card>
         </TabsContent>
       </Tabs>
+
       {/* Getting Started Guide for New Users */}
       {totalReports === 0 && (
         <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200 shadow-lg">

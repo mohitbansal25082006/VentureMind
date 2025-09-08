@@ -112,7 +112,7 @@ export default function CookiePolicyPage() {
         },
         {
           heading: "Social Media",
-          text: "Our website may include social media features, such as the 'Like' or 'Share' buttons. These features may set cookies on your device when you use them."
+          text: "Our website may include social media features, such as the &apos;Like&apos; or &apos;Share&apos; buttons. These features may set cookies on your device when you use them."
         }
       ]
     },
@@ -330,7 +330,7 @@ export default function CookiePolicyPage() {
           </h2>
           <p className="text-gray-600 text-lg mb-10 max-w-2xl mx-auto">
             If you have any questions or concerns about our use of cookies, 
-            please don't hesitate to contact us.
+            please don&apos;t hesitate to contact us.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" asChild>

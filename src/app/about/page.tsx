@@ -51,7 +51,7 @@ export default function AboutPage() {
   const values = [
     {
       title: "Innovation",
-      description: "We constantly push the boundaries of what's possible with AI technology.",
+      description: "We constantly push the boundaries of what&apos;s possible with AI technology.",
       icon: Lightbulb
     },
     {
@@ -112,7 +112,7 @@ export default function AboutPage() {
               Empowering Entrepreneurs with AI-Powered Insights
             </h1>
             <p className="text-xl text-blue-100 mb-10 max-w-2xl mx-auto">
-              We're on a mission to help entrepreneurs validate their startup ideas quickly, 
+              We&apos;re on a mission to help entrepreneurs validate their startup ideas quickly, 
               accurately, and affordably using cutting-edge artificial intelligence.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -272,8 +272,6 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
-
-      
     </div>
   );
 }

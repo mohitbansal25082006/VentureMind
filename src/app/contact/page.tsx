@@ -72,7 +72,7 @@ export default function ContactPage() {
   const faqs = [
     {
       question: "How quickly can I expect a response to my inquiry?",
-      answer: "We typically respond to all inquiries within 24 business hours. For urgent matters, please mark your email as 'Urgent' and we'll prioritize your request."
+      answer: "We typically respond to all inquiries within 24 business hours. For urgent matters, please mark your email as &apos;Urgent&apos; and we&apos;ll prioritize your request."
     },
     {
       question: "Do you offer phone support?",
@@ -80,7 +80,7 @@ export default function ContactPage() {
     },
     {
       question: "Can I schedule a demo of the platform?",
-      answer: "Absolutely! We'd be happy to show you how VentureMind works. Please contact our sales team to schedule a personalized demo."
+      answer: "Absolutely! We&apos;d be happy to show you how VentureMind works. Please contact our sales team to schedule a personalized demo."
     },
     {
       question: "Do you have an API for developers?",
@@ -98,7 +98,7 @@ export default function ContactPage() {
               Get In Touch
             </Badge>
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              We'd Love to Hear From You
+              We&apos;d Love to Hear From You
             </h1>
             <p className="text-xl text-blue-100 mb-10 max-w-2xl mx-auto">
               Whether you have questions, feedback, or partnership opportunities, 
@@ -118,7 +118,7 @@ export default function ContactPage() {
                 <CardHeader>
                   <CardTitle className="text-2xl">Send Us a Message</CardTitle>
                   <CardDescription>
-                    Fill out the form below and we'll get back to you as soon as possible.
+                    Fill out the form below and we&apos;ll get back to you as soon as possible.
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
@@ -324,7 +324,7 @@ export default function ContactPage() {
           <div className="text-center mt-12">
             <h3 className="text-xl font-semibold mb-4">Still have questions?</h3>
             <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-              Our support team is here to help. Reach out to us and we'll be happy to assist you.
+              Our support team is here to help. Reach out to us and we&apos;ll be happy to assist you.
             </p>
             <Button size="lg" asChild>
               <Link href="#contact-form">

@@ -1,7 +1,7 @@
 // src/components/dashboard/risk-matrix.tsx
 'use client';
 
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import {
   ScatterChart,
   Scatter,
@@ -10,9 +10,16 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  Cell
+  Cell,
+  TooltipProps,
 } from 'recharts';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { AlertTriangle, Shield, Info } from 'lucide-react';
 import { getRiskColor } from '@/lib/validation';
@@ -22,8 +29,22 @@ interface RiskMatrixProps {
   risks: Risk[];
 }
 
+type RiskLevel = 'high' | 'medium' | 'low';
+
+interface RiskChartData {
+  x: number;
+  y: number;
+  name: string;
+  description: string;
+  mitigation: string;
+  impact: Risk['impact'];
+  probability: Risk['probability'];
+  riskLevel: RiskLevel;
+  index: number;
+}
+
 export function RiskMatrix({ risks }: RiskMatrixProps) {
-  const riskData = useMemo(
+  const riskData: RiskChartData[] = useMemo(
     () =>
       risks.map((risk, index) => ({
         x: risk.probability === 'high' ? 3 : risk.probability === 'medium' ? 2 : 1,
@@ -34,12 +55,12 @@ export function RiskMatrix({ risks }: RiskMatrixProps) {
         impact: risk.impact,
         probability: risk.probability,
         riskLevel: getRiskLevel(risk.impact, risk.probability),
-        index
+        index,
       })),
     [risks]
   );
 
-  function getRiskLevel(impact: string, probability: string) {
+  function getRiskLevel(impact: string, probability: string): RiskLevel {
     const impactScore = impact === 'high' ? 3 : impact === 'medium' ? 2 : 1;
     const probScore = probability === 'high' ? 3 : probability === 'medium' ? 2 : 1;
     const totalScore = impactScore * probScore;
@@ -49,7 +70,7 @@ export function RiskMatrix({ risks }: RiskMatrixProps) {
     return 'low';
   }
 
-  const getRiskLevelColor = (level: string) => {
+  const getRiskLevelColor = (level: RiskLevel): string => {
     switch (level) {
       case 'high':
         return '#ef4444';
@@ -62,9 +83,12 @@ export function RiskMatrix({ risks }: RiskMatrixProps) {
     }
   };
 
-  const CustomTooltip = ({ active, payload }: any) => {
+  const CustomTooltip = ({
+    active,
+    payload,
+  }: TooltipProps<number, string>): React.ReactElement | null => {
     if (active && payload && payload.length) {
-      const data = payload[0].payload;
+      const data = payload[0].payload as RiskChartData;
       return (
         <div className="bg-white p-4 border rounded-lg shadow-lg max-w-sm">
           <h4 className="font-medium text-sm mb-2">{data.name}</h4>
@@ -86,9 +110,11 @@ export function RiskMatrix({ risks }: RiskMatrixProps) {
   };
 
   const riskCategories = useMemo(() => {
-    const high = risks.filter(r => getRiskLevel(r.impact, r.probability) === 'high');
-    const medium = risks.filter(r => getRiskLevel(r.impact, r.probability) === 'medium');
-    const low = risks.filter(r => getRiskLevel(r.impact, r.probability) === 'low');
+    const high = risks.filter((r) => getRiskLevel(r.impact, r.probability) === 'high');
+    const medium = risks.filter(
+      (r) => getRiskLevel(r.impact, r.probability) === 'medium'
+    );
+    const low = risks.filter((r) => getRiskLevel(r.impact, r.probability) === 'low');
 
     return { high, medium, low };
   }, [risks]);
@@ -111,7 +137,9 @@ export function RiskMatrix({ risks }: RiskMatrixProps) {
         <Card className="border-red-200 bg-red-50">
           <CardContent className="p-6 text-center">
             <AlertTriangle className="h-8 w-8 text-red-600 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-red-600">{riskCategories.high.length}</div>
+            <div className="text-2xl font-bold text-red-600">
+              {riskCategories.high.length}
+            </div>
             <div className="text-sm text-red-600">High Risk</div>
           </CardContent>
         </Card>
@@ -119,7 +147,9 @@ export function RiskMatrix({ risks }: RiskMatrixProps) {
         <Card className="border-yellow-200 bg-yellow-50">
           <CardContent className="p-6 text-center">
             <Info className="h-8 w-8 text-yellow-600 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-yellow-600">{riskCategories.medium.length}</div>
+            <div className="text-2xl font-bold text-yellow-600">
+              {riskCategories.medium.length}
+            </div>
             <div className="text-sm text-yellow-600">Medium Risk</div>
           </CardContent>
         </Card>
@@ -127,7 +157,9 @@ export function RiskMatrix({ risks }: RiskMatrixProps) {
         <Card className="border-green-200 bg-green-50">
           <CardContent className="p-6 text-center">
             <Shield className="h-8 w-8 text-green-600 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-green-600">{riskCategories.low.length}</div>
+            <div className="text-2xl font-bold text-green-600">
+              {riskCategories.low.length}
+            </div>
             <div className="text-sm text-green-600">Low Risk</div>
           </CardContent>
         </Card>
@@ -137,7 +169,9 @@ export function RiskMatrix({ risks }: RiskMatrixProps) {
       <Card>
         <CardHeader>
           <CardTitle>Risk Matrix</CardTitle>
-          <CardDescription>Risk assessment based on impact vs probability</CardDescription>
+          <CardDescription>
+            Risk assessment based on impact vs probability
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="h-80">
@@ -149,17 +183,21 @@ export function RiskMatrix({ risks }: RiskMatrixProps) {
                   dataKey="x"
                   domain={[0.5, 3.5]}
                   tickCount={3}
-                  tickFormatter={value =>
+                  tickFormatter={(value) =>
                     value === 1 ? 'Low' : value === 2 ? 'Medium' : 'High'
                   }
-                  label={{ value: 'Probability', position: 'insideBottom', offset: -10 }}
+                  label={{
+                    value: 'Probability',
+                    position: 'insideBottom',
+                    offset: -10,
+                  }}
                 />
                 <YAxis
                   type="number"
                   dataKey="y"
                   domain={[0.5, 3.5]}
                   tickCount={3}
-                  tickFormatter={value =>
+                  tickFormatter={(value) =>
                     value === 1 ? 'Low' : value === 2 ? 'Medium' : 'High'
                   }
                   label={{ value: 'Impact', angle: -90, position: 'insideLeft' }}
@@ -215,7 +253,9 @@ export function RiskMatrix({ risks }: RiskMatrixProps) {
                     </p>
                     <div className="mt-3">
                       <p className="text-sm font-medium">Mitigation Strategy:</p>
-                      <p className="text-sm text-muted-foreground">{risk.mitigation}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {risk.mitigation}
+                      </p>
                     </div>
                   </div>
                   <div className="flex flex-col gap-2">

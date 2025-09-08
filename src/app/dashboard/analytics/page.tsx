@@ -38,13 +38,27 @@ import {
   Home
 } from 'lucide-react';
 import Link from 'next/link';
+
+interface ReportData {
+  id: string;
+  userId: string;
+  title: string;
+  description: string;
+  industry: string;
+  region: string;
+  targetMarket: string;
+  investmentScore?: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export default async function AnalyticsPage() {
   const session = await getServerSession(authOptions);
   if (!session?.user) {
     redirect('/');
   }
   
-  // Fetch user's reports
+  // Fetch user's reports with all required fields for AdvancedAnalytics
   const reports = await prisma.report.findMany({
     where: {
       userId: session.user.id,
@@ -54,13 +68,23 @@ export default async function AnalyticsPage() {
     },
     select: {
       id: true,
+      userId: true,
       title: true,
+      description: true,
       industry: true,
       region: true,
+      targetMarket: true,
       investmentScore: true,
       createdAt: true,
+      updatedAt: true,
     },
   });
+  
+  // Transform reports to match the expected type for AdvancedAnalytics
+  const transformedReports: ReportData[] = reports.map(report => ({
+    ...report,
+    investmentScore: report.investmentScore ?? undefined
+  }));
   
   const totalReports = reports.length;
   const avgScore = totalReports > 0 ? Math.round(
@@ -257,7 +281,7 @@ export default async function AnalyticsPage() {
                 Your Top Industries
               </CardTitle>
               <CardDescription>
-                Industries you've validated the most
+                Industries you&apos;ve validated the most
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -286,7 +310,7 @@ export default async function AnalyticsPage() {
                 Your Top Regions
               </CardTitle>
               <CardDescription>
-                Regions you've focused on
+                Regions you&apos;ve focused on
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -484,7 +508,7 @@ export default async function AnalyticsPage() {
           </h2>
           <p className="text-gray-600 mt-1">Detailed charts and visualizations of your validation data</p>
         </div>
-        <AdvancedAnalytics reports={reports as any} />
+        <AdvancedAnalytics reports={transformedReports} />
       </div>
       
       {/* Getting Started Guide */}

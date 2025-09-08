@@ -33,7 +33,7 @@ export default function CareersPage() {
       type: "Full-time",
       experience: "5+ years",
       salary: "$160,000 - $200,000",
-      description: "We're looking for an experienced ML Engineer to help build and scale our AI-powered validation models.",
+      description: "We&apos;re looking for an experienced ML Engineer to help build and scale our AI-powered validation models.",
       responsibilities: [
         "Design and implement machine learning models for startup validation",
         "Optimize algorithms for performance and accuracy",
@@ -220,7 +220,7 @@ export default function CareersPage() {
               Build the Future of Entrepreneurship
             </h1>
             <p className="text-xl text-blue-100 mb-10 max-w-2xl mx-auto">
-              We're looking for passionate individuals who want to make a difference 
+              We&apos;re looking for passionate individuals who want to make a difference 
               in the lives of entrepreneurs worldwide.
             </p>
           </div>
@@ -233,10 +233,10 @@ export default function CareersPage() {
           <div className="text-center max-w-3xl mx-auto mb-16">
             <Badge className="mb-4">Our Culture</Badge>
             <h2 className="text-3xl font-bold mb-6">
-              Why You'll Love Working Here
+              Why You&apos;ll Love Working Here
             </h2>
             <p className="text-gray-600 text-lg">
-              We've built a culture that values innovation, collaboration, and personal growth.
+              We&apos;ve built a culture that values innovation, collaboration, and personal growth.
             </p>
           </div>
           
@@ -302,7 +302,7 @@ export default function CareersPage() {
               Join Our Team
             </h2>
             <p className="text-gray-600 text-lg">
-              We're always looking for talented individuals to join our mission.
+              We&apos;re always looking for talented individuals to join our mission.
             </p>
           </div>
           
@@ -361,7 +361,7 @@ export default function CareersPage() {
                         
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                           <div>
-                            <h4 className="font-semibold mb-3">What You'll Do</h4>
+                            <h4 className="font-semibold mb-3">What You&apos;ll Do</h4>
                             <ul className="space-y-2">
                               {job.responsibilities.map((responsibility, index) => (
                                 <li key={index} className="flex items-start gap-2 text-sm">
@@ -373,7 +373,7 @@ export default function CareersPage() {
                           </div>
                           
                           <div>
-                            <h4 className="font-semibold mb-3">What You'll Need</h4>
+                            <h4 className="font-semibold mb-3">What You&apos;ll Need</h4>
                             <ul className="space-y-2">
                               {job.requirements.map((requirement, index) => (
                                 <li key={index} className="flex items-start gap-2 text-sm">
@@ -407,9 +407,9 @@ export default function CareersPage() {
           </Tabs>
           
           <div className="text-center mt-12">
-            <h3 className="text-xl font-semibold mb-4">Don't see your perfect role?</h3>
+            <h3 className="text-xl font-semibold mb-4">Don&apos;t see your perfect role?</h3>
             <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-              We're always looking for talented individuals. Send us your resume and 
+              We&apos;re always looking for talented individuals. Send us your resume and 
               let us know how you can contribute to our mission.
             </p>
             <Button variant="outline" size="lg">
@@ -418,7 +418,6 @@ export default function CareersPage() {
           </div>
         </div>
       </section>
-
     </div>
   );
 }
