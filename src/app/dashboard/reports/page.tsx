@@ -1,7 +1,7 @@
 // src/app/dashboard/reports/page.tsx (Advanced UI)
 'use client';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -43,7 +43,8 @@ import { industryOptions, regionOptions } from '@/lib/validation';
 import { ReportData } from '@/types/validation';
 import { toast } from 'sonner';
 
-export default function ReportsPage() {
+// Create a component that uses useSearchParams
+function ReportsContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [reports, setReports] = useState<ReportData[]>([]);
@@ -585,5 +586,18 @@ export default function ReportsPage() {
         </>
       )}
     </div>
+  );
+}
+
+// Main page component with Suspense boundary
+export default function ReportsPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+    }>
+      <ReportsContent />
+    </Suspense>
   );
 }
