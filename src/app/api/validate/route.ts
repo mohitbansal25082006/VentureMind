@@ -5,6 +5,7 @@ import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/db';
 import { validateStartupIdea } from '@/lib/openai';
 import { ideaValidationSchema } from '@/lib/validation';
+import type { Prisma } from '@prisma/client';
 
 export async function POST(request: NextRequest) {
   try {
@@ -22,7 +23,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           error: 'Invalid input data',
-          details: validationResult.error.issues, // ✅ fixed here
+          details: validationResult.error.issues,
         },
         { status: 400 }
       );
@@ -40,6 +41,22 @@ export async function POST(request: NextRequest) {
       region
     );
 
+    // Convert all objects to Prisma-compatible JSON values
+    const analysisDataJson = JSON.parse(JSON.stringify(analysisData)) as Prisma.InputJsonValue;
+    const marketTrendsJson = JSON.parse(JSON.stringify(analysisData.marketAnalysis.marketTrends)) as Prisma.InputJsonValue;
+    const competitorsJson = JSON.parse(JSON.stringify(analysisData.competitorAnalysis.directCompetitors)) as Prisma.InputJsonValue;
+    const competitorAnalysisJson = JSON.parse(JSON.stringify(analysisData.competitorAnalysis)) as Prisma.InputJsonValue;
+    const strengthsJson = JSON.parse(JSON.stringify(analysisData.swotAnalysis.strengths)) as Prisma.InputJsonValue;
+    const weaknessesJson = JSON.parse(JSON.stringify(analysisData.swotAnalysis.weaknesses)) as Prisma.InputJsonValue;
+    const opportunitiesJson = JSON.parse(JSON.stringify(analysisData.swotAnalysis.opportunities)) as Prisma.InputJsonValue;
+    const threatsJson = JSON.parse(JSON.stringify(analysisData.swotAnalysis.threats)) as Prisma.InputJsonValue;
+    const risksJson = JSON.parse(JSON.stringify(analysisData.riskAnalysis.risks)) as Prisma.InputJsonValue;
+    const revenueStreamsJson = JSON.parse(JSON.stringify(analysisData.businessModel.revenueStreams)) as Prisma.InputJsonValue;
+    const monetizationStrategyJson = JSON.parse(JSON.stringify(analysisData.businessModel)) as Prisma.InputJsonValue;
+    const techStackJson = JSON.parse(JSON.stringify(analysisData.techAnalysis.recommendedStack)) as Prisma.InputJsonValue;
+    const teamEstimationJson = JSON.parse(JSON.stringify(analysisData.techAnalysis.roles)) as Prisma.InputJsonValue;
+    const improvementTipsJson = JSON.parse(JSON.stringify(analysisData.investmentAnalysis.improvementAreas)) as Prisma.InputJsonValue;
+
     // Save report to database
     const report = await prisma.report.create({
       data: {
@@ -49,27 +66,27 @@ export async function POST(request: NextRequest) {
         industry,
         targetMarket,
         region,
-        analysisData: analysisData,
+        analysisData: analysisDataJson,
         tamSize: BigInt(analysisData.marketAnalysis.tamSize || 0),
         samSize: BigInt(analysisData.marketAnalysis.samSize || 0),
         somSize: BigInt(analysisData.marketAnalysis.somSize || 0),
-        marketTrends: analysisData.marketAnalysis.marketTrends,
-        competitors: analysisData.competitorAnalysis.directCompetitors,
-        competitorAnalysis: analysisData.competitorAnalysis,
-        strengths: analysisData.swotAnalysis.strengths,
-        weaknesses: analysisData.swotAnalysis.weaknesses,
-        opportunities: analysisData.swotAnalysis.opportunities,
-        threats: analysisData.swotAnalysis.threats,
-        risks: analysisData.riskAnalysis.risks,
-        revenueStreams: analysisData.businessModel.revenueStreams,
-        monetizationStrategy: analysisData.businessModel,
-        techStack: analysisData.techAnalysis.recommendedStack,
+        marketTrends: marketTrendsJson,
+        competitors: competitorsJson,
+        competitorAnalysis: competitorAnalysisJson,
+        strengths: strengthsJson,
+        weaknesses: weaknessesJson,
+        opportunities: opportunitiesJson,
+        threats: threatsJson,
+        risks: risksJson,
+        revenueStreams: revenueStreamsJson,
+        monetizationStrategy: monetizationStrategyJson,
+        techStack: techStackJson,
         techComplexity: analysisData.techAnalysis.complexity,
-        teamEstimation: analysisData.techAnalysis.roles,
+        teamEstimation: teamEstimationJson,
         mvpTimeline: analysisData.techAnalysis.developmentTime,
         budgetEstimate: analysisData.techAnalysis.budgetEstimate.mvp,
         investmentScore: analysisData.investmentAnalysis.score,
-        improvementTips: analysisData.investmentAnalysis.improvementAreas,
+        improvementTips: improvementTipsJson,
       },
     });
 

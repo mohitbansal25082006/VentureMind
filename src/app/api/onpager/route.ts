@@ -62,6 +62,25 @@ function extractFirstJsonObject(text: string): string | null {
   return null;
 }
 
+// Type guard to validate the parsed object structure
+function isValidOnePager(obj: unknown): obj is OnePager {
+  return (
+    typeof obj === 'object' &&
+    obj !== null &&
+    'sections' in obj &&
+    Array.isArray((obj as OnePager).sections) &&
+    (obj as OnePager).sections.every(
+      (section: unknown) =>
+        typeof section === 'object' &&
+        section !== null &&
+        'title' in section &&
+        'content' in section &&
+        typeof (section as OnePagerSection).title === 'string' &&
+        typeof (section as OnePagerSection).content === 'string'
+    )
+  );
+}
+
 // ---------------- Route ----------------
 export async function POST(request: NextRequest) {
   try {
@@ -155,15 +174,12 @@ Make the content concise and investor-friendly.
     try {
       const jsonText = extractFirstJsonObject(rawText) ?? rawText;
       const parsed = JSON.parse(jsonText) as unknown;
-      // Quick validation: must have sections array
-      if (
-        typeof parsed === 'object' &&
-        parsed !== null &&
-        Array.isArray((parsed as any).sections)
-      ) {
-        onePager = parsed as OnePager;
+      
+      // Use type guard instead of any
+      if (isValidOnePager(parsed)) {
+        onePager = parsed;
       } else {
-        throw new Error('Parsed object does not match OnePager shape');
+        throw new Error('Parsed object does not match OnePager structure');
       }
     } catch (err) {
       console.error('Failed to parse OpenAI one-pager JSON:', err, 'raw:', rawText);
