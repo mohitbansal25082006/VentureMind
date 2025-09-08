@@ -35,77 +35,72 @@ export function Navbar() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
-  const NavLinks = () => (
-    <>
-      <Link
-        href="/"
-        className="text-sm font-medium hover:text-primary transition-colors"
-        onClick={() => setIsOpen(false)}
-      >
-        Home
-      </Link>
-      {session && (
-        <>
-          <Link
-            href="/dashboard"
-            className="text-sm font-medium hover:text-primary transition-colors"
-            onClick={() => setIsOpen(false)}
-          >
-            Dashboard
-          </Link>
-          <Link
-            href="/dashboard/validate"
-            className="text-sm font-medium hover:text-primary transition-colors"
-            onClick={() => setIsOpen(false)}
-          >
-            Validate Idea
-          </Link>
-          <Link
-            href="/dashboard/reports"
-            className="text-sm font-medium hover:text-primary transition-colors"
-            onClick={() => setIsOpen(false)}
-          >
-            Reports
-          </Link>
-          <Link
-            href="/dashboard/analytics"
-            className="text-sm font-medium hover:text-primary transition-colors"
-            onClick={() => setIsOpen(false)}
-          >
-            Analytics
-          </Link>
-          <Link
-            href="/dashboard/resources"
-            className="text-sm font-medium hover:text-primary transition-colors"
-            onClick={() => setIsOpen(false)}
-          >
-            Resources
-          </Link>
-        </>
-      )}
-      <Link
-        href="#features"
-        className="text-sm font-medium hover:text-primary transition-colors"
-        onClick={() => setIsOpen(false)}
-      >
-        Features
-      </Link>
-      <Link
-        href="#how-it-works"
-        className="text-sm font-medium hover:text-primary transition-colors"
-        onClick={() => setIsOpen(false)}
-      >
-        How It Works
-      </Link>
-      <Link
-        href="#pricing"
-        className="text-sm font-medium hover:text-primary transition-colors"
-        onClick={() => setIsOpen(false)}
-      >
-        Pricing
-      </Link>
-    </>
-  );
+  // src/components/navbar.tsx (Updated)
+// Update the NavLinks component to use the correct page paths:
+const NavLinks = () => (
+  <>
+    <Link
+      href="/"
+      className="text-sm font-medium hover:text-primary transition-colors"
+      onClick={() => setIsOpen(false)}
+    >
+      Home
+    </Link>
+    {session && (
+      <>
+        <Link
+          href="/dashboard"
+          className="text-sm font-medium hover:text-primary transition-colors"
+          onClick={() => setIsOpen(false)}
+        >
+          Dashboard
+        </Link>
+        <Link
+          href="/dashboard/validate"
+          className="text-sm font-medium hover:text-primary transition-colors"
+          onClick={() => setIsOpen(false)}
+        >
+          Validate Idea
+        </Link>
+        <Link
+          href="/dashboard/reports"
+          className="text-sm font-medium hover:text-primary transition-colors"
+          onClick={() => setIsOpen(false)}
+        >
+          Reports
+        </Link>
+        <Link
+          href="/dashboard/analytics"
+          className="text-sm font-medium hover:text-primary transition-colors"
+          onClick={() => setIsOpen(false)}
+        >
+          Analytics
+        </Link>
+        <Link
+          href="/dashboard/resources"
+          className="text-sm font-medium hover:text-primary transition-colors"
+          onClick={() => setIsOpen(false)}
+        >
+          Resources
+        </Link>
+      </>
+    )}
+    <Link
+      href="/features"
+      className="text-sm font-medium hover:text-primary transition-colors"
+      onClick={() => setIsOpen(false)}
+    >
+      Features
+    </Link>
+    <Link
+      href="/how-it-works"
+      className="text-sm font-medium hover:text-primary transition-colors"
+      onClick={() => setIsOpen(false)}
+    >
+      How It Works
+    </Link>
+  </>
+);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -202,10 +197,6 @@ export function Navbar() {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link href="/dashboard/resources">
-                    <BookOpen className="mr-2 h-4 w-4" />
-                    Resources
-                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link href="/settings">
