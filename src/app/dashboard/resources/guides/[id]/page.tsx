@@ -2,18 +2,14 @@
 import { notFound, redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { 
   ArrowLeft, 
   BookOpen, 
-  Download, 
   Star, 
   Clock, 
   BarChart3,
-  Share2,
-  Bookmark,
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -82,7 +78,6 @@ Startup validation is an iterative process that requires humility, curiosity, an
     readTime: "15 min",
     difficulty: "Beginner",
     rating: 4.8,
-    downloads: 1242,
     featured: true,
     author: "Alex Johnson",
     publishDate: "2023-06-15",
@@ -98,28 +93,12 @@ Startup validation is an iterative process that requires humility, curiosity, an
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <Button variant="ghost" size="sm" asChild>
-            <Link href="/dashboard/resources">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Resources
-            </Link>
-          </Button>
+          <Link href="/dashboard/resources" className="inline-flex items-center text-sm text-muted-foreground hover:text-primary">
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to Resources
+          </Link>
           <h1 className="text-3xl font-bold mt-2">{guide.title}</h1>
           <p className="text-muted-foreground mt-2">{guide.description}</p>
-        </div>
-        <div className="flex gap-2">
-          <Button variant="outline" size="sm">
-            <Bookmark className="mr-2 h-4 w-4" />
-            Save
-          </Button>
-          <Button variant="outline" size="sm">
-            <Share2 className="mr-2 h-4 w-4" />
-            Share
-          </Button>
-          <Button size="sm">
-            <Download className="mr-2 h-4 w-4" />
-            Download PDF
-          </Button>
         </div>
       </div>
 
@@ -142,10 +121,6 @@ Startup validation is an iterative process that requires humility, curiosity, an
             <div className="flex items-center gap-2">
               <Star className="h-4 w-4 text-amber-500 fill-current" />
               <span>{guide.rating} rating</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Download className="h-4 w-4 text-muted-foreground" />
-              <span>{guide.downloads} downloads</span>
             </div>
             <div className="flex items-center gap-2">
               <span>By {guide.author}</span>

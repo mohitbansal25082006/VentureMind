@@ -1,4 +1,4 @@
-// src/app/dashboard/resources/videos/[id]/page.tsx (New)
+// src/app/dashboard/resources/videos/[id]/page.tsx
 import { notFound, redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
@@ -13,12 +13,7 @@ import {
   Clock,
   Share2,
   Bookmark,
-  CheckCircle,
-  Lightbulb,
-  TrendingUp,
-  Award,
   MessageSquare,
-  ExternalLink,
   ThumbsUp,
   ThumbsDown,
   Play
@@ -26,7 +21,7 @@ import {
 import Link from 'next/link';
 
 interface VideoPageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export default async function VideoPage({ params }: VideoPageProps) {
@@ -35,9 +30,12 @@ export default async function VideoPage({ params }: VideoPageProps) {
     redirect('/');
   }
 
+  // ✅ Await params first
+  const { id } = await params;
+
   // Mock video data - in a real app, this would come from a database
   const video = {
-    id: parseInt(params.id),
+    id: parseInt(id),
     title: "How to Validate Your Startup Idea",
     description: "A step-by-step video guide on validating your startup idea effectively.",
     duration: "18:42",
@@ -85,14 +83,6 @@ export default async function VideoPage({ params }: VideoPageProps) {
           <p className="text-muted-foreground mt-2">{video.description}</p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" size="sm">
-            <Bookmark className="mr-2 h-4 w-4" />
-            Save
-          </Button>
-          <Button variant="outline" size="sm">
-            <Share2 className="mr-2 h-4 w-4" />
-            Share
-          </Button>
         </div>
       </div>
 
@@ -146,26 +136,6 @@ export default async function VideoPage({ params }: VideoPageProps) {
         ))}
       </div>
 
-      {/* Video Actions */}
-      <Card className="shadow-sm">
-        <CardContent className="p-6">
-          <div className="flex flex-wrap items-center gap-4">
-            <Button size="sm">
-              <ThumbsUp className="mr-2 h-4 w-4" />
-              Like
-            </Button>
-            <Button variant="outline" size="sm">
-              <ThumbsDown className="mr-2 h-4 w-4" />
-              Dislike
-            </Button>
-            <Button variant="outline" size="sm">
-              <MessageSquare className="mr-2 h-4 w-4" />
-              Comment
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-
       {/* Transcript */}
       <Card className="shadow-sm">
         <CardHeader>
@@ -182,44 +152,6 @@ export default async function VideoPage({ params }: VideoPageProps) {
         </CardContent>
       </Card>
 
-      {/* Related Resources */}
-      <Card className="shadow-sm">
-        <CardHeader>
-          <CardTitle>Related Resources</CardTitle>
-          <CardDescription>Explore more resources to continue your learning journey</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Card className="border border-gray-200">
-              <CardContent className="p-4">
-                <h4 className="font-medium mb-2">The Ultimate Guide to Startup Validation</h4>
-                <p className="text-sm text-muted-foreground mb-3">Comprehensive guide on validating startup ideas</p>
-                <Button variant="outline" size="sm" className="w-full">
-                  Read Guide
-                </Button>
-              </CardContent>
-            </Card>
-            <Card className="border border-gray-200">
-              <CardContent className="p-4">
-                <h4 className="font-medium mb-2">Market Research Techniques</h4>
-                <p className="text-sm text-muted-foreground mb-3">Learn effective market research methods</p>
-                <Button variant="outline" size="sm" className="w-full">
-                  Watch Video
-                </Button>
-              </CardContent>
-            </Card>
-            <Card className="border border-gray-200">
-              <CardContent className="p-4">
-                <h4 className="font-medium mb-2">Startup Funding Strategies</h4>
-                <p className="text-sm text-muted-foreground mb-3">Join our upcoming webinar on funding</p>
-                <Button variant="outline" size="sm" className="w-full">
-                  Register Now
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 }

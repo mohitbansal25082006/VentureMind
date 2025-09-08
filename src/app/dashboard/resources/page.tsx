@@ -215,44 +215,19 @@ export default async function ResourcesPage() {
                 Validate Idea
               </Link>
             </Button>
-            <Button variant="outline" className="border-white text-white hover:bg-white/10" asChild>
-              <Link href="/dashboard">
-                <ArrowRight className="mr-2 h-4 w-4" />
-                Back to Dashboard
-              </Link>
+            <Button
+                variant="outline"
+                className="border-white text-white bg-white/10 hover:bg-white/20"
+                asChild
+                >
+                <Link href="/dashboard">
+                    <ArrowRight className="mr-2 h-4 w-4" />
+                    Back to Dashboard
+                </Link>
             </Button>
           </div>
         </div>
       </div>
-
-      {/* Search and Filter */}
-      <Card className="shadow-sm">
-        <CardContent className="p-6">
-          <div className="flex flex-col md:flex-row gap-4">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-              <Input
-                placeholder="Search resources..."
-                className="pl-10"
-              />
-            </div>
-            <div className="flex gap-2">
-              <Button variant="outline" size="sm">
-                <Filter className="mr-2 h-4 w-4" />
-                All Types
-              </Button>
-              <Button variant="outline" size="sm">
-                <Clock className="mr-2 h-4 w-4" />
-                Recent
-              </Button>
-              <Button variant="outline" size="sm">
-                <Star className="mr-2 h-4 w-4" />
-                Popular
-              </Button>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
 
       {/* Resources Tabs */}
       <Tabs defaultValue="guides" className="space-y-6">
