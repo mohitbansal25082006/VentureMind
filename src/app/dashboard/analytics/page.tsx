@@ -1,4 +1,4 @@
-// src/app/dashboard/analytics/page.tsx (New)
+// src/app/dashboard/analytics/page.tsx (Updated)
 import { redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
