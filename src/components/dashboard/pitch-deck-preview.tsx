@@ -1,43 +1,39 @@
-// src/components/dashboard/pitch-deck-preview.tsx
+// src/components/dashboard/pitch-deck-preview.tsx (Fixed)
 'use client';
 import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   FileText, 
   Download, 
   Share, 
-  Eye, 
   Loader2,
   ArrowLeft,
   ArrowRight,
-  Plus
+  Plus,
 } from 'lucide-react';
 import { toast } from 'sonner';
-import type { ReportData } from '@/types/validation';
-
-interface PitchDeckPreviewProps {
-  report: ReportData;
-}
+import type { ValidationReport } from '@/types/validation';
 
 interface PitchDeckSlide {
   title: string;
-  content: Record<string, string | string[]>;
+  content: Record<string, string | string[] | number | boolean>;
 }
 
 interface PitchDeck {
   slides: PitchDeckSlide[];
 }
 
-export function PitchDeckPreview({ report }: PitchDeckPreviewProps) {
+interface PitchDeckPreviewProps {
+  report: ValidationReport & { pitchDeck?: PitchDeck }; // extend type
+  reportId: string;
+}
+
+export function PitchDeckPreview({ report, reportId }: PitchDeckPreviewProps) {
   const [isGenerating, setIsGenerating] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [pitchDeck, setPitchDeck] = useState<PitchDeck | null>(
-    (report.analysisData as any)?.pitchDeck || null
-  );
+  const [pitchDeck, setPitchDeck] = useState<PitchDeck | null>(report.pitchDeck || null);
 
   const handleGeneratePitchDeck = async () => {
     try {
@@ -49,7 +45,7 @@ export function PitchDeckPreview({ report }: PitchDeckPreviewProps) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ reportId: report.id }),
+        body: JSON.stringify({ reportId }),
       });
       
       const result = await response.json();
@@ -69,13 +65,50 @@ export function PitchDeckPreview({ report }: PitchDeckPreviewProps) {
   };
 
   const handleDownload = () => {
-    // TODO: Implement PDF download
-    toast.info('PDF download coming soon!');
+    if (!pitchDeck) return;
+    
+    let content = `${pitchDeck.slides[0].content.startupName} - Pitch Deck\n\n`;
+    pitchDeck.slides.forEach((slide, index) => {
+      content += `${index + 1}. ${slide.title}\n`;
+      Object.entries(slide.content).forEach(([key, value]) => {
+        if (Array.isArray(value)) {
+          content += `   ${key}:\n`;
+          value.forEach((item) => {
+            content += `   - ${item}\n`;
+          });
+        } else {
+          content += `   ${key}: ${String(value)}\n`;
+        }
+      });
+      content += '\n';
+    });
+    
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${pitchDeck.slides[0].content.startupName}-Pitch-Deck.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    toast.success('Pitch deck downloaded!');
   };
 
   const handleShare = () => {
-    // TODO: Implement share functionality
-    toast.info('Share functionality coming soon!');
+    if (!pitchDeck) return;
+    const shareText = `Check out my pitch deck for ${pitchDeck.slides[0].content.startupName}!`;
+    
+    if (navigator.share) {
+      navigator.share({
+        title: `${pitchDeck.slides[0].content.startupName} Pitch Deck`,
+        text: shareText,
+      });
+    } else {
+      navigator.clipboard.writeText(shareText);
+      toast.success('Pitch deck link copied to clipboard!');
+    }
   };
 
   const nextSlide = () => {
@@ -146,7 +179,7 @@ export function PitchDeckPreview({ report }: PitchDeckPreviewProps) {
                 Pitch Deck Preview
               </CardTitle>
               <CardDescription>
-                {report.title} - {currentSlide + 1} of {pitchDeck.slides.length} slides
+                {String(pitchDeck.slides[0].content.startupName)} - {currentSlide + 1} of {pitchDeck.slides.length} slides
               </CardDescription>
             </div>
             <div className="flex gap-2">
@@ -156,7 +189,7 @@ export function PitchDeckPreview({ report }: PitchDeckPreviewProps) {
               </Button>
               <Button onClick={handleDownload}>
                 <Download className="mr-2 h-4 w-4" />
-                Download PDF
+                Download
               </Button>
             </div>
           </div>
@@ -182,11 +215,11 @@ export function PitchDeckPreview({ report }: PitchDeckPreviewProps) {
                     {Array.isArray(value) ? (
                       <ul className="space-y-2 pl-5">
                         {value.map((item, idx) => (
-                          <li key={idx} className="list-disc">{item as string}</li>
+                          <li key={idx} className="list-disc">{item}</li>
                         ))}
                       </ul>
                     ) : (
-                      <p className="text-muted-foreground">{value as string}</p>
+                      <p className="text-muted-foreground">{String(value)}</p>
                     )}
                   </div>
                 ))}
@@ -221,7 +254,7 @@ export function PitchDeckPreview({ report }: PitchDeckPreviewProps) {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-            {pitchDeck.slides.map((slide: PitchDeckSlide, index: number) => (
+            {pitchDeck.slides.map((s, index) => (
               <div 
                 key={index}
                 className={`border rounded-lg p-3 cursor-pointer transition-all ${
@@ -231,12 +264,43 @@ export function PitchDeckPreview({ report }: PitchDeckPreviewProps) {
                 }`}
                 onClick={() => setCurrentSlide(index)}
               >
-                <div className="text-sm font-medium truncate">{slide.title}</div>
+                <div className="text-sm font-medium truncate">{s.title}</div>
                 <div className="text-xs text-muted-foreground mt-1">
                   Slide {index + 1}
                 </div>
               </div>
             ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Export Options */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Export Options</CardTitle>
+          <CardDescription>
+            Download your pitch deck in different formats
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <Button variant="outline" onClick={handleDownload}>
+              <Download className="mr-2 h-4 w-4" />
+              Download as Text
+            </Button>
+            <Button variant="outline" onClick={handleShare}>
+              <Share className="mr-2 h-4 w-4" />
+              Share Deck
+            </Button>
+            <Button 
+              variant="outline" 
+              onClick={() => {
+                toast.info('PDF export coming soon!');
+              }}
+            >
+              <FileText className="mr-2 h-4 w-4" />
+              Export as PDF
+            </Button>
           </div>
         </CardContent>
       </Card>
