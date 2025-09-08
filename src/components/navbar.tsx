@@ -1,3 +1,4 @@
+// src/components/navbar.tsx (Updated)
 "use client";
 
 import { useState } from "react";
@@ -20,6 +21,13 @@ import {
   LogOut,
   Settings,
   Menu,
+  BookOpen,
+  FileText,
+  Lightbulb,
+  Download,
+  Video,
+  Users,
+  Star,
 } from "lucide-react";
 
 export function Navbar() {
@@ -65,6 +73,13 @@ export function Navbar() {
             onClick={() => setIsOpen(false)}
           >
             Analytics
+          </Link>
+          <Link
+            href="/dashboard/resources"
+            className="text-sm font-medium hover:text-primary transition-colors"
+            onClick={() => setIsOpen(false)}
+          >
+            Resources
           </Link>
         </>
       )}
@@ -184,6 +199,12 @@ export function Navbar() {
                   <Link href="/dashboard/analytics">
                     <BarChart3 className="mr-2 h-4 w-4" />
                     Analytics
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboard/resources">
+                    <BookOpen className="mr-2 h-4 w-4" />
+                    Resources
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>

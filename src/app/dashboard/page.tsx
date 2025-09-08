@@ -319,7 +319,7 @@ export default async function DashboardPage() {
               </Link>
             </Card>
             <Card className="group hover:shadow-xl transition-all duration-300 cursor-pointer hover:border-orange-500 hover:bg-orange-50/30">
-              <Link href="/dashboard/reports">
+              <Link href="/dashboard/resources">
                 <CardContent className="p-6 text-center">
                   <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
                     <Lightbulb className="h-8 w-8 text-white" />
