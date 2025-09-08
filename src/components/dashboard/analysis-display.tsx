@@ -1,6 +1,5 @@
-// src/components/dashboard/analysis-display.tsx
+// src/components/dashboard/analysis-display.tsx (Updated)
 'use client';
-
 import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -48,17 +47,14 @@ export function AnalysisDisplay({
   region 
 }: AnalysisDisplayProps) {
   const [activeTab, setActiveTab] = useState('overview');
-
   const handleDownload = () => {
     // TODO: Implement PDF download functionality
     console.log('Download report:', reportId);
   };
-
   const handleShare = () => {
     // TODO: Implement share functionality
     console.log('Share report:', reportId);
   };
-
   const tabs = [
     { id: 'overview', label: 'Overview', icon: BookOpen },
     { id: 'market', label: 'Market Analysis', icon: BarChart3 },
@@ -70,7 +66,6 @@ export function AnalysisDisplay({
     { id: 'pitchdeck', label: 'Pitch Deck', icon: FileText },
     { id: 'onepager', label: 'One-Pager', icon: FileText },
   ];
-
   return (
     <div className="space-y-6">
       {/* Report Header */}
@@ -100,7 +95,6 @@ export function AnalysisDisplay({
           </div>
         </CardHeader>
       </Card>
-
       {/* Analysis Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
         <TabsList className="grid w-full grid-cols-4 lg:grid-cols-9">
@@ -118,7 +112,6 @@ export function AnalysisDisplay({
             );
           })}
         </TabsList>
-
         {/* Overview Tab */}
         <TabsContent value="overview" className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -133,7 +126,6 @@ export function AnalysisDisplay({
                 </div>
               </CardContent>
             </Card>
-
             <Card>
               <CardContent className="p-6">
                 <div className="text-center">
@@ -145,7 +137,6 @@ export function AnalysisDisplay({
                 </div>
               </CardContent>
             </Card>
-
             <Card>
               <CardContent className="p-6">
                 <div className="text-center">
@@ -157,7 +148,6 @@ export function AnalysisDisplay({
                 </div>
               </CardContent>
             </Card>
-
             <Card>
               <CardContent className="p-6">
                 <div className="text-center">
@@ -170,7 +160,6 @@ export function AnalysisDisplay({
               </CardContent>
             </Card>
           </div>
-
           {/* Key Insights */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {report.competitorAnalysis.competitiveAdvantage && (
@@ -181,7 +170,6 @@ export function AnalysisDisplay({
                 </AlertDescription>
               </Alert>
             )}
-
             {report.competitorAnalysis.marketGap && (
               <Alert className="border-blue-200 bg-blue-50">
                 <Target className="h-4 w-4 text-blue-600" />
@@ -191,7 +179,6 @@ export function AnalysisDisplay({
               </Alert>
             )}
           </div>
-
           {/* Target Market */}
           <Card>
             <CardHeader>
@@ -202,27 +189,22 @@ export function AnalysisDisplay({
             </CardContent>
           </Card>
         </TabsContent>
-
         {/* Market Analysis Tab */}
         <TabsContent value="market">
           <MarketChart marketAnalysis={report.marketAnalysis} />
         </TabsContent>
-
         {/* Competitors Tab */}
         <TabsContent value="competitors">
           <CompetitorTable competitorAnalysis={report.competitorAnalysis} />
         </TabsContent>
-
         {/* SWOT Analysis Tab */}
         <TabsContent value="swot">
           <SWOTMatrix swotAnalysis={report.swotAnalysis} />
         </TabsContent>
-
         {/* Risk Assessment Tab */}
         <TabsContent value="risks">
           <RiskMatrix risks={report.riskAnalysis.risks} />
         </TabsContent>
-
         {/* Tech Stack Tab */}
         <TabsContent value="tech" className="space-y-6">
           <Card>
@@ -249,7 +231,6 @@ export function AnalysisDisplay({
               </div>
             </CardContent>
           </Card>
-
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <Card>
               <CardContent className="p-6">
@@ -262,7 +243,6 @@ export function AnalysisDisplay({
                 </div>
               </CardContent>
             </Card>
-
             <Card>
               <CardContent className="p-6">
                 <div className="text-center">
@@ -274,7 +254,6 @@ export function AnalysisDisplay({
                 </div>
               </CardContent>
             </Card>
-
             <Card>
               <CardContent className="p-6">
                 <div className="text-center">
@@ -287,7 +266,6 @@ export function AnalysisDisplay({
               </CardContent>
             </Card>
           </div>
-
           {/* Team Recommendations */}
           <Card>
             <CardHeader>
@@ -319,7 +297,6 @@ export function AnalysisDisplay({
               </div>
             </CardContent>
           </Card>
-
           {/* Budget Estimates */}
           <Card>
             <CardHeader>
@@ -349,20 +326,17 @@ export function AnalysisDisplay({
             </CardContent>
           </Card>
         </TabsContent>
-
         {/* Investment Tab */}
         <TabsContent value="investment">
           <InvestmentScore investmentAnalysis={report.investmentAnalysis} />
         </TabsContent>
-
         {/* Pitch Deck Tab */}
         <TabsContent value="pitchdeck">
-          <PitchDeckPreview report={report as any} />
+          <PitchDeckPreview report={report} reportId={reportId} />
         </TabsContent>
-
         {/* One-Pager Tab */}
         <TabsContent value="onepager">
-          <OnePagerPreview report={report as any} />
+          <OnePagerPreview report={report} reportId={reportId} />
         </TabsContent>
       </Tabs>
     </div>
