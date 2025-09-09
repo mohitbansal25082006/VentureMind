@@ -44,14 +44,6 @@ export default async function ReportPage({ params }: ReportPageProps) {
           </Link>
         </Button>
         <div className="flex gap-2 ml-auto">
-          <Button variant="outline" size="sm" className="hidden md:flex">
-            <Download className="mr-2 h-4 w-4" />
-            Download
-          </Button>
-          <Button variant="outline" size="sm" className="hidden md:flex">
-            <Share className="mr-2 h-4 w-4" />
-            Share
-          </Button>
           {/* Mobile action buttons */}
           <Button variant="outline" size="sm" className="md:hidden">
             <Download className="h-4 w-4" />
