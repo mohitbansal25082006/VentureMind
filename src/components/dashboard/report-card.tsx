@@ -73,10 +73,6 @@ export function ReportCard({ report, onView, onDelete, onDownload }: ReportCardP
                 <Eye className="h-4 w-4 mr-2" />
                 View Report
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleDownload}>
-                <Download className="h-4 w-4 mr-2" />
-                Download PDF
-              </DropdownMenuItem>
               <DropdownMenuItem 
                 onClick={handleDelete}
                 className="text-red-600 focus:text-red-600"

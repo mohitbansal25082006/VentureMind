@@ -83,14 +83,6 @@ export function AnalysisDisplay({
               </div>
             </div>
             <div className="flex gap-2">
-              <Button variant="outline" onClick={handleShare}>
-                <Share className="h-4 w-4 mr-2" />
-                Share
-              </Button>
-              <Button onClick={handleDownload}>
-                <Download className="h-4 w-4 mr-2" />
-                Download PDF
-              </Button>
             </div>
           </div>
         </CardHeader>

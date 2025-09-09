@@ -7,9 +7,8 @@ import { AnalysisDisplay } from "@/components/dashboard/analysis-display";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Download, Share } from "lucide-react";
 import Link from "next/link";
-import type { ValidationReport } from "@/types/validation"; // ✅ import correct type
+import type { ValidationReport } from "@/types/validation";
 
-// Props from Next.js route
 interface ReportPageProps {
   params: Promise<{ id: string }>;
 }
@@ -34,30 +33,38 @@ export default async function ReportPage({ params }: ReportPageProps) {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-4 md:p-6">
       {/* Top bar with back + actions */}
-      <div className="flex items-center gap-4">
-        <Button variant="outline" size="sm" asChild>
+      <div className="flex items-center gap-4 flex-wrap">
+        <Button variant="outline" size="sm" asChild className="flex-shrink-0">
           <Link href="/dashboard/reports">
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Reports
+            <span className="hidden xs:inline">Back to Reports</span>
+            <span className="xs:hidden">Back</span>
           </Link>
         </Button>
         <div className="flex gap-2 ml-auto">
-          <Button variant="outline" size="sm">
+          <Button variant="outline" size="sm" className="hidden md:flex">
+            <Download className="mr-2 h-4 w-4" />
+            Download
+          </Button>
+          <Button variant="outline" size="sm" className="hidden md:flex">
             <Share className="mr-2 h-4 w-4" />
             Share
           </Button>
-          <Button size="sm">
-            <Download className="mr-2 h-4 w-4" />
-            Download PDF
+          {/* Mobile action buttons */}
+          <Button variant="outline" size="sm" className="md:hidden">
+            <Download className="h-4 w-4" />
+          </Button>
+          <Button variant="outline" size="sm" className="md:hidden">
+            <Share className="h-4 w-4" />
           </Button>
         </div>
       </div>
 
       {/* Analysis Display */}
       <AnalysisDisplay
-        report={report.analysisData as unknown as ValidationReport} // ✅ use ValidationReport
+        report={report.analysisData as unknown as ValidationReport}
         reportId={report.id}
         title={report.title}
         description={report.description}
