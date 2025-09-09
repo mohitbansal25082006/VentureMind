@@ -20,8 +20,6 @@ import {
   TrendingDown, 
   DollarSign, 
   Users, 
-  ChevronDown,
-  ChevronRight,
   ExternalLink
 } from 'lucide-react';
 import type { CompetitorAnalysis } from '@/types/validation';
@@ -32,12 +30,6 @@ interface CompetitorTableProps {
 
 export function CompetitorTable({ competitorAnalysis }: CompetitorTableProps) {
   const [expandedCompetitor, setExpandedCompetitor] = useState<string | null>(null);
-
-  const toggleExpanded = (competitorName: string) => {
-    setExpandedCompetitor(
-      expandedCompetitor === competitorName ? null : competitorName
-    );
-  };
 
   const getThreatColor = (threat: string) => {
     switch (threat) {
@@ -124,7 +116,6 @@ export function CompetitorTable({ competitorAnalysis }: CompetitorTableProps) {
                   <TableHead>Market Share</TableHead>
                   <TableHead>Funding</TableHead>
                   <TableHead>Threat Level</TableHead>
-                  <TableHead></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -172,21 +163,6 @@ export function CompetitorTable({ competitorAnalysis }: CompetitorTableProps) {
                         <span className="text-muted-foreground">N/A</span>
                       )}
                     </TableCell>
-                    <TableCell>
-                      {competitor.type === 'direct' && (
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => toggleExpanded(competitor.name)}
-                        >
-                          {expandedCompetitor === competitor.name ? (
-                            <ChevronDown className="h-4 w-4" />
-                          ) : (
-                            <ChevronRight className="h-4 w-4" />
-                          )}
-                        </Button>
-                      )}
-                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -195,7 +171,7 @@ export function CompetitorTable({ competitorAnalysis }: CompetitorTableProps) {
         </CardContent>
       </Card>
 
-      {/* Expanded Competitor Details */}
+      {/* Expanded Competitor Details (still works if triggered manually in code) */}
       {expandedCompetitor && (
         <Card>
           <CardHeader>
